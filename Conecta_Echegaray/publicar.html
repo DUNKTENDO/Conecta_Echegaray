@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Publicar | Conecta Echegaray</title>
+
+    <meta
+        name="description"
+        content="Comparte información con la comunidad de Echegaray"
+    >
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="container nav">
+
+            <a href="index.html" class="logo">
+
+                <span class="logo-icon">
+                    CE
+                </span>
+
+                <div>
+                    <strong>Conecta</strong>
+                    <span>Echegaray</span>
+                </div>
+
+            </a>
+
+
+            <nav class="desktop-menu">
+
+                <a href="index.html">
+                    Inicio
+                </a>
+
+                <a href="noticias.html">
+                    Noticias
+                </a>
+
+                <a href="eventos.html">
+                    Eventos
+                </a>
+
+                <a href="comercios.html">
+                    Comercios
+                </a>
+
+                <a href="comunidad.html">
+                    Comunidad
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <a
+                    href="publicar.html"
+                    class="btn btn-primary"
+                >
+                    Publicar
+                </a>
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Abrir menú"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENÚ MÓVIL -->
+
+        <div class="mobile-menu" id="mobileMenu">
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <a href="noticias.html">
+                Noticias
+            </a>
+
+            <a href="eventos.html">
+                Eventos
+            </a>
+
+            <a href="comercios.html">
+                Comercios
+            </a>
+
+            <a href="comunidad.html">
+                Comunidad
+            </a>
+
+            <a
+                href="publicar.html"
+                class="btn btn-primary"
+            >
+                Publicar algo
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= CONTENIDO ================= -->
+
+    <main>
+
+        <section class="publish-page">
+
+            <div class="container publish-layout">
+
+
+                <!-- ================= INTRO ================= -->
+
+                <div class="publish-intro">
+
+                    <span class="eyebrow">
+                        PARTICIPA EN LA COMUNIDAD
+                    </span>
+
+                    <h1>
+                        Comparte algo con
+                        <span>Echegaray.</span>
+                    </h1>
+
+                    <p>
+                        Publica una noticia, evento, aviso,
+                        servicio o iniciativa que pueda ser
+                        de interés para los habitantes de
+                        nuestra comunidad.
+                    </p>
+
+
+                    <div class="publish-info">
+
+                        <div class="publish-info-item">
+
+                            <span class="info-icon">
+                                ✓
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Publicación gratuita
+                                </strong>
+
+                                <p>
+                                    Comparte información de interés
+                                    para la comunidad sin costo.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="publish-info-item">
+
+                            <span class="info-icon">
+                                🛡️
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Revisión comunitaria
+                                </strong>
+
+                                <p>
+                                    Las publicaciones serán revisadas
+                                    antes de aparecer en el portal.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="publish-info-item">
+
+                            <span class="info-icon">
+                                ⏱️
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Publicaciones temporales
+                                </strong>
+
+                                <p>
+                                    Las publicaciones podrán tener
+                                    una vigencia determinada.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= FORMULARIO ================= -->
+
+                <div class="publish-form-card">
+
+                    <div class="form-header">
+
+                        <h2>
+                            Nueva publicación
+                        </h2>
+
+                        <p>
+                            Completa los siguientes datos.
+                        </p>
+
+                    </div>
+
+
+                    <form id="publishForm">
+
+
+                        <!-- TIPO -->
+
+                        <div class="form-group">
+
+                            <label for="type">
+                                ¿Qué quieres publicar?
+                            </label>
+
+                            <select
+                                id="type"
+                                name="type"
+                                required
+                            >
+
+                                <option value="">
+                                    Selecciona una categoría
+                                </option>
+
+                                <option value="noticia">
+                                    📰 Noticia
+                                </option>
+
+                                <option value="evento">
+                                    📅 Evento
+                                </option>
+
+                                <option value="aviso">
+                                    📢 Aviso comunitario
+                                </option>
+
+                                <option value="servicio">
+                                    🛠️ Servicio
+                                </option>
+
+                                <option value="comercio">
+                                    🛍️ Comercio
+                                </option>
+
+                                <option value="compra-venta">
+                                    🔄 Compra / Venta / Intercambio
+                                </option>
+
+                                <option value="iniciativa">
+                                    💡 Iniciativa comunitaria
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- TÍTULO -->
+
+                        <div class="form-group">
+
+                            <label for="title">
+                                Título
+                            </label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                placeholder="Ej. Jornada de limpieza comunitaria"
+                                maxlength="100"
+                                required
+                            >
+
+                            <span class="field-help">
+                                Máximo 100 caracteres.
+                            </span>
+
+                        </div>
+
+
+                        <!-- DATOS DE COMERCIO O SERVICIO -->
+
+                        <div
+                            class="business-fields"
+                            id="businessFields"
+                        >
+
+                            <div class="form-section-heading">
+
+                                <span class="eyebrow">
+                                    DIRECTORIO LOCAL
+                                </span>
+
+                                <p>
+                                    Estos datos aparecerán en la ficha del
+                                    comercio una vez que sean revisados.
+                                </p>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="businessName">
+                                    Nombre del comercio o servicio
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="businessName"
+                                    name="businessName"
+                                    maxlength="100"
+                                    placeholder="Ej. Café del Parque"
+                                >
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="businessCategory">
+                                    Categoría del directorio
+                                </label>
+
+                                <select
+                                    id="businessCategory"
+                                    name="businessCategory"
+                                >
+
+                                    <option value="">
+                                        Selecciona una categoría
+                                    </option>
+
+                                    <option value="alimentos">
+                                        Alimentos
+                                    </option>
+
+                                    <option value="servicios">
+                                        Servicios
+                                    </option>
+
+                                    <option value="salud">
+                                        Salud y bienestar
+                                    </option>
+
+                                    <option value="hogar">
+                                        Hogar
+                                    </option>
+
+                                    <option value="educacion">
+                                        Educación
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="businessHours">
+                                    Horario de atención
+                                    <span class="optional">Opcional</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="businessHours"
+                                    name="businessHours"
+                                    maxlength="100"
+                                    placeholder="Ej. Lun–Sáb, 09:00 a 18:00"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESCRIPCIÓN -->
+
+                        <div class="form-group">
+
+                            <label for="description">
+                                Descripción
+                            </label>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows="7"
+                                maxlength="1000"
+                                placeholder="Cuéntanos los detalles de tu publicación..."
+                                required
+                            ></textarea>
+
+                            <div class="textarea-footer">
+
+                                <span class="field-help">
+                                    Describe la información de manera clara.
+                                </span>
+
+                                <span
+                                    class="character-counter"
+                                    id="characterCounter"
+                                >
+                                    0 / 1000
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- IMAGEN -->
+
+                        <div class="form-group">
+
+                            <label for="image">
+                                Imagen
+                                <span class="optional">
+                                    Opcional
+                                </span>
+                            </label>
+
+                            <div class="file-upload">
+
+                                <input
+                                    type="file"
+                                    id="image"
+                                    name="image"
+                                    accept="image/png, image/jpeg, image/webp"
+                                >
+
+                                <label for="image" class="file-label">
+
+                                    <span class="file-icon">
+                                        📷
+                                    </span>
+
+                                    <span>
+
+                                        <strong>
+                                            Seleccionar imagen
+                                        </strong>
+
+                                        <small>
+                                            JPG, PNG o WEBP
+                                        </small>
+
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- UBICACIÓN -->
+
+                        <div class="form-group">
+
+                            <label for="location">
+                                Ubicación
+                                <span class="optional">
+                                    Opcional
+                                </span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                placeholder="Ej. Parque Echegaray"
+                                maxlength="150"
+                            >
+
+                        </div>
+
+
+                        <!-- CONTACTO -->
+
+                        <div class="form-group">
+
+                            <label for="contact">
+                                Información de contacto
+                                <span class="optional">
+                                    Opcional
+                                </span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="contact"
+                                name="contact"
+                                placeholder="Teléfono, correo o medio de contacto"
+                                maxlength="150"
+                            >
+
+                            <span class="field-help">
+                                Evita compartir información personal que no sea necesaria.
+                            </span>
+
+                        </div>
+
+
+                        <!-- FECHA EVENTO -->
+
+                        <div
+                            class="event-fields"
+                            id="eventFields"
+                        >
+
+                            <div class="form-group">
+
+                                <label for="eventDate">
+                                    Fecha del evento
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="eventDate"
+                                    name="eventDate"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="eventTime">
+                                    Hora
+                                </label>
+
+                                <input
+                                    type="time"
+                                    id="eventTime"
+                                    name="eventTime"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CONDICIONES -->
+
+                        <div class="form-check">
+
+                            <input
+                                type="checkbox"
+                                id="terms"
+                                name="terms"
+                                required
+                            >
+
+                            <label for="terms">
+
+                                Confirmo que la información que estoy
+                                enviando es correcta y acepto que la
+                                publicación sea revisada antes de ser
+                                publicada.
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- BOTÓN -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-submit"
+                        >
+                            Enviar publicación
+                        </button>
+
+
+                        <p class="form-note">
+
+                            <span>🛡️</span>
+
+                            Las solicitudes de comercio y servicio quedan
+                            pendientes de revisión. Con el servidor local
+                            activo se guardan en el panel de administración.
+
+                        </p>
+
+                        <p
+                            id="formMessage"
+                            class="form-message"
+                            aria-live="polite"
+                        ></p>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= AVISO ================= -->
+
+        <section class="section section-light">
+
+            <div class="container">
+
+                <div class="community-box">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            IMPORTANTE
+                        </span>
+
+                        <h2>
+                            Queremos mantener un espacio útil para todos.
+                        </h2>
+
+                        <p>
+                            Las publicaciones deberán estar relacionadas
+                            con la comunidad y cumplir con las reglas de
+                            participación de Conecta Echegaray.
+                        </p>
+
+                    </div>
+
+                    <div class="community-icon">
+                        🤝
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+
+            <div class="footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo"
+                >
+
+                    <span class="logo-icon">
+                        CE
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Conecta
+                        </strong>
+
+                        <span>
+                            Echegaray
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <p>
+                    Un espacio digital para conectar
+                    a nuestra comunidad.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>
+                        Comunidad
+                    </h4>
+
+                    <a href="noticias.html">
+                        Noticias
+                    </a>
+
+                    <a href="eventos.html">
+                        Eventos
+                    </a>
+
+                    <a href="comercios.html">
+                        Comercios
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Participa
+                    </h4>
+
+                    <a href="publicar.html">
+                        Publicar
+                    </a>
+
+                    <a href="comunidad.html">
+                        Comunidad
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="container footer-bottom">
+
+            <span>
+                © 2026 Conecta Echegaray
+            </span>
+
+            <span>
+                Proyecto comunitario
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>

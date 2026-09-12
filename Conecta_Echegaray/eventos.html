@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Eventos | Conecta Echegaray
+    </title>
+
+    <meta
+        name="description"
+        content="Consulta los próximos eventos y actividades de la comunidad de Echegaray."
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/styles.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="container nav">
+
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+
+                <span class="logo-icon">
+                    CE
+                </span>
+
+                <div>
+
+                    <strong>
+                        Conecta
+                    </strong>
+
+                    <span>
+                        Echegaray
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <nav class="desktop-menu">
+
+                <a href="index.html">
+                    Inicio
+                </a>
+
+                <a href="noticias.html">
+                    Noticias
+                </a>
+
+                <a
+                    href="eventos.html"
+                    class="active"
+                >
+                    Eventos
+                </a>
+
+                <a href="comercios.html">
+                    Comercios
+                </a>
+
+                <a href="comunidad.html">
+                    Comunidad
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    class="search-button"
+                    id="searchButton"
+                    aria-label="Buscar"
+                >
+                    🔍
+                </button>
+
+
+                <a
+                    href="publicar.html"
+                    class="btn btn-primary"
+                >
+                    Publicar
+                </a>
+
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Abrir menú"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUSCADOR -->
+
+        <div
+            class="search-box"
+            id="searchBox"
+        >
+
+            <div class="container">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Busca eventos, actividades..."
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- MENÚ MÓVIL -->
+
+        <div
+            class="mobile-menu"
+            id="mobileMenu"
+        >
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <a href="noticias.html">
+                Noticias
+            </a>
+
+            <a
+                href="eventos.html"
+                class="active"
+            >
+                Eventos
+            </a>
+
+            <a href="comercios.html">
+                Comercios
+            </a>
+
+            <a href="comunidad.html">
+                Comunidad
+            </a>
+
+            <a
+                href="publicar.html"
+                class="btn btn-primary"
+            >
+                Publicar algo
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= CONTENIDO ================= -->
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="page-hero">
+
+            <div class="container">
+
+                <span class="eyebrow">
+                    AGENDA COMUNITARIA
+                </span>
+
+                <h1>
+                    Eventos y actividades
+                </h1>
+
+                <p>
+                    Descubre actividades, reuniones, talleres
+                    y encuentros que se realizan en Echegaray.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FILTROS -->
+
+        <section class="section">
+
+            <div class="container">
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            PRÓXIMAMENTE
+                        </span>
+
+                        <h2>
+                            Agenda de la comunidad
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="filter-bar">
+
+                    <button
+                        class="filter-btn active"
+                        data-category="all"
+                    >
+                        Todos
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="comunidad"
+                    >
+                        Comunidad
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="deportes"
+                    >
+                        Deportes
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="cultura"
+                    >
+                        Cultura
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="talleres"
+                    >
+                        Talleres
+                    </button>
+
+                </div>
+
+
+
+                <!-- EVENTOS -->
+
+                <div
+                    class="events-list"
+                    id="eventsList"
+                >
+
+
+                    <article
+                        class="event-card"
+                        data-category="comunidad"
+                    >
+
+                        <div class="event-date">
+
+                            <span>
+                                29
+                            </span>
+
+                            <strong>
+                                AGO
+                            </strong>
+
+                        </div>
+
+
+                        <div class="event-info">
+
+                            <span class="tag">
+                                Comunidad
+                            </span>
+
+                            <h3>
+                                Jornada de limpieza comunitaria
+                            </h3>
+
+                            <p>
+                                Actividad organizada para mejorar
+                                y mantener los espacios comunes
+                                de Echegaray.
+                            </p>
+
+                            <small>
+                                📍 Echegaray · ⏰ 09:00 AM
+                            </small>
+
+                        </div>
+
+
+                        <span class="event-arrow">
+                            →
+                        </span>
+
+                    </article>
+
+
+
+                    <article
+                        class="event-card"
+                        data-category="cultura"
+                    >
+
+                        <div class="event-date">
+
+                            <span>
+                                --
+                            </span>
+
+                            <strong>
+                                Próx.
+                            </strong>
+
+                        </div>
+
+
+                        <div class="event-info">
+
+                            <span class="tag">
+                                Cultura
+                            </span>
+
+                            <h3>
+                                Actividades culturales comunitarias
+                            </h3>
+
+                            <p>
+                                Espacio para compartir actividades
+                                culturales y recreativas con los
+                                habitantes.
+                            </p>
+
+                            <small>
+                                📍 Echegaray
+                            </small>
+
+                        </div>
+
+
+                        <span class="event-arrow">
+                            →
+                        </span>
+
+                    </article>
+
+
+
+                    <article
+                        class="event-card"
+                        data-category="talleres"
+                    >
+
+                        <div class="event-date">
+
+                            <span>
+                                --
+                            </span>
+
+                            <strong>
+                                Próx.
+                            </strong>
+
+                        </div>
+
+
+                        <div class="event-info">
+
+                            <span class="tag">
+                                Talleres
+                            </span>
+
+                            <h3>
+                                Talleres y actividades para vecinos
+                            </h3>
+
+                            <p>
+                                En este espacio se publicarán
+                                talleres, cursos y actividades
+                                abiertas a la comunidad.
+                            </p>
+
+                            <small>
+                                📍 Echegaray
+                            </small>
+
+                        </div>
+
+
+                        <span class="event-arrow">
+                            →
+                        </span>
+
+                    </article>
+
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PUBLICAR EVENTO -->
+
+        <section class="publish-section">
+
+            <div class="container publish-content">
+
+                <div>
+
+                    <span class="eyebrow">
+                        PARTICIPA
+                    </span>
+
+                    <h2>
+                        ¿Organizas un evento?
+                    </h2>
+
+                    <p>
+                        Comparte tu actividad con los habitantes
+                        de Echegaray.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="publicar.html"
+                    class="btn btn-white btn-large"
+                >
+                    Publicar evento
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+            <div class="footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo"
+                >
+
+                    <span class="logo-icon">
+                        CE
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Conecta
+                        </strong>
+
+                        <span>
+                            Echegaray
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <p>
+                    Un espacio digital para conectar a nuestra comunidad.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>
+                        Comunidad
+                    </h4>
+
+                    <a href="noticias.html">
+                        Noticias
+                    </a>
+
+                    <a href="eventos.html">
+                        Eventos
+                    </a>
+
+                    <a href="comercios.html">
+                        Comercios
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Participa
+                    </h4>
+
+                    <a href="publicar.html">
+                        Publicar
+                    </a>
+
+                    <a href="comunidad.html">
+                        Comunidad
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="container footer-bottom">
+
+            <span>
+                © 2026 Conecta Echegaray
+            </span>
+
+            <span>
+                Proyecto comunitario
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

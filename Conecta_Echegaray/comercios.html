@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Comercios | Conecta Echegaray
+    </title>
+
+    <meta
+        name="description"
+        content="Directorio de comercios y servicios locales de Echegaray."
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/styles.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="container nav">
+
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+
+                <span class="logo-icon">
+                    CE
+                </span>
+
+                <div>
+
+                    <strong>
+                        Conecta
+                    </strong>
+
+                    <span>
+                        Echegaray
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <nav class="desktop-menu">
+
+                <a href="index.html">
+                    Inicio
+                </a>
+
+                <a href="noticias.html">
+                    Noticias
+                </a>
+
+                <a href="eventos.html">
+                    Eventos
+                </a>
+
+                <a
+                    href="comercios.html"
+                    class="active"
+                >
+                    Comercios
+                </a>
+
+                <a href="comunidad.html">
+                    Comunidad
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    class="search-button"
+                    id="searchButton"
+                    aria-label="Buscar"
+                >
+                    🔍
+                </button>
+
+
+                <a
+                    href="publicar.html"
+                    class="btn btn-primary"
+                >
+                    Publicar
+                </a>
+
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Abrir menú"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENÚ MÓVIL -->
+
+        <div
+            class="mobile-menu"
+            id="mobileMenu"
+        >
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <a href="noticias.html">
+                Noticias
+            </a>
+
+            <a href="eventos.html">
+                Eventos
+            </a>
+
+            <a
+                href="comercios.html"
+                class="active"
+            >
+                Comercios
+            </a>
+
+            <a href="comunidad.html">
+                Comunidad
+            </a>
+
+            <a
+                href="publicar.html"
+                class="btn btn-primary"
+            >
+                Publicar algo
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= CONTENIDO ================= -->
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="page-hero">
+
+            <div class="container">
+
+                <span class="eyebrow">
+                    APOYA LO LOCAL
+                </span>
+
+                <h1>
+                    Comercios y servicios
+                </h1>
+
+                <p>
+                    Descubre negocios, servicios y emprendimientos
+                    que forman parte de nuestra comunidad.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DIRECTORIO -->
+
+        <section class="section">
+
+            <div class="container">
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            DIRECTORIO LOCAL
+                        </span>
+
+                        <h2>
+                            Encuentra lo que necesitas
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUSCADOR -->
+
+                <div class="directory-search">
+
+                    <input
+                        type="text"
+                        id="businessSearch"
+                        placeholder="Buscar comercio o servicio..."
+                    >
+
+                </div>
+
+
+
+                <!-- CATEGORÍAS -->
+
+                <div class="filter-bar">
+
+                    <button
+                        class="filter-btn active"
+                        data-category="all"
+                    >
+                        Todos
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="alimentos"
+                    >
+                        Alimentos
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="servicios"
+                    >
+                        Servicios
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="salud"
+                    >
+                        Salud
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="hogar"
+                    >
+                        Hogar
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        data-category="educacion"
+                    >
+                        Educación
+                    </button>
+
+                </div>
+
+
+
+                <!-- COMERCIOS -->
+
+                <div
+                    class="business-grid"
+                    id="businessGrid"
+                ></div>
+
+                <p
+                    id="businessNoResults"
+                    class="directory-empty"
+                    hidden
+                >
+                    No encontramos comercios o servicios con esos criterios.
+                </p>
+
+                <p class="directory-note">
+                    Directorio de demostración: las fichas se reemplazarán
+                    por comercios validados por la comunidad.
+                </p>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- REGISTRAR NEGOCIO -->
+
+        <section class="publish-section">
+
+            <div class="container publish-content">
+
+                <div>
+
+                    <span class="eyebrow">
+                        COMERCIO LOCAL
+                    </span>
+
+                    <h2>
+                        ¿Tienes un negocio?
+                    </h2>
+
+                    <p>
+                        Solicita que tu negocio aparezca en el directorio.
+                        Cada publicación será revisada antes de mostrarse.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="publicar.html"
+                    class="btn btn-white btn-large"
+                >
+                    Quiero participar
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+
+            <div class="footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo"
+                >
+
+                    <span class="logo-icon">
+                        CE
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Conecta
+                        </strong>
+
+                        <span>
+                            Echegaray
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <p>
+                    Un espacio digital para conectar a nuestra comunidad.
+                </p>
+
+            </div>
+
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>
+                        Comunidad
+                    </h4>
+
+                    <a href="noticias.html">
+                        Noticias
+                    </a>
+
+                    <a href="eventos.html">
+                        Eventos
+                    </a>
+
+                    <a href="comercios.html">
+                        Comercios
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Participa
+                    </h4>
+
+                    <a href="publicar.html">
+                        Publicar
+                    </a>
+
+                    <a href="comunidad.html">
+                        Comunidad
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="container footer-bottom">
+
+            <span>
+                © 2026 Conecta Echegaray
+            </span>
+
+            <span>
+                Proyecto comunitario
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

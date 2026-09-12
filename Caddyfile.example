@@ -1,0 +1,5 @@
+# Sustituye tu-dominio.example por tu dominio real.
+# Caddy obtiene y renueva el certificado HTTPS automáticamente.
+tu-dominio.example {
+    reverse_proxy 127.0.0.1:8000
+}

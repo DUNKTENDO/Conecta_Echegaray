@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel de revisión | Conecta Echegaray</title>
+
+    <meta
+        name="description"
+        content="Panel local para revisar solicitudes de comercio y servicio."
+    >
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="container nav">
+
+            <a href="index.html" class="logo">
+                <span class="logo-icon">CE</span>
+                <div>
+                    <strong>Conecta</strong>
+                    <span>Echegaray</span>
+                </div>
+            </a>
+
+            <nav class="desktop-menu">
+                <a href="index.html">Inicio</a>
+                <a href="noticias.html">Noticias</a>
+                <a href="eventos.html">Eventos</a>
+                <a href="comercios.html">Comercios</a>
+                <a href="comunidad.html">Comunidad</a>
+            </nav>
+
+            <div class="nav-actions">
+
+                <a href="publicar.html" class="btn btn-primary">
+                    Publicar
+                </a>
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Abrir menú"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Inicio</a>
+            <a href="noticias.html">Noticias</a>
+            <a href="eventos.html">Eventos</a>
+            <a href="comercios.html">Comercios</a>
+            <a href="comunidad.html">Comunidad</a>
+            <a href="publicar.html" class="btn btn-primary">Publicar algo</a>
+        </div>
+
+    </header>
+
+    <main>
+
+        <section class="page-hero review-hero">
+
+            <div class="container">
+                <span class="eyebrow">ADMINISTRACIÓN LOCAL</span>
+                <h1>Panel de revisión</h1>
+                <p>
+                    Revisa las solicitudes de comercios y servicios antes
+                    de que se publiquen en el directorio.
+                </p>
+            </div>
+
+        </section>
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="review-header">
+
+                    <div>
+                        <span class="eyebrow">SOLICITUDES</span>
+                        <h2>Pendientes de revisión</h2>
+                    </div>
+
+                    <button
+                        class="btn btn-secondary"
+                        id="refreshReviews"
+                    >
+                        ↻ Actualizar
+                    </button>
+
+                </div>
+
+                <div class="review-summary">
+
+                    <div class="review-stat">
+                        <span>Pendientes</span>
+                        <strong id="pendingCount">0</strong>
+                    </div>
+
+                    <p id="reviewSource" aria-live="polite">
+                        Cargando solicitudes…
+                    </p>
+
+                </div>
+
+                <div id="reviewList" class="review-list"></div>
+
+                <p id="reviewEmpty" class="directory-empty" hidden>
+                    No hay solicitudes pendientes de revisión.
+                </p>
+
+                <p class="review-warning">
+                    Este panel es para uso local. Antes de publicarlo en
+                    internet debe protegerse con acceso de administrador.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">CE</span>
+                    <div>
+                        <strong>Conecta</strong>
+                        <span>Echegaray</span>
+                    </div>
+                </a>
+
+                <p>Un espacio digital para conectar a nuestra comunidad.</p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <div>
+                    <h4>Comunidad</h4>
+                    <a href="noticias.html">Noticias</a>
+                    <a href="eventos.html">Eventos</a>
+                    <a href="comercios.html">Comercios</a>
+                </div>
+
+                <div>
+                    <h4>Participa</h4>
+                    <a href="publicar.html">Publicar</a>
+                    <a href="comunidad.html">Comunidad</a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container footer-bottom">
+            <span>© 2026 Conecta Echegaray</span>
+            <span>Proyecto comunitario</span>
+        </div>
+
+    </footer>
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
