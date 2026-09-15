@@ -49,10 +49,26 @@ if (menuButton && mobileMenu) {
 const searchButton = document.getElementById("searchButton");
 const searchBox = document.getElementById("searchBox");
 const searchInput = document.getElementById("searchInput");
-const backendEnabled = ["http:", "https:"].includes(
-    window.location.protocol
-);
+const API_BASE_URL = "https://conecta-echegaray-api.onrender.com";
 
+const backendEnabled = ["http:", "https:"].includes(window.location.protocol);
+
+function apiUrl(path) {
+    return `${API_BASE_URL}${path}`;
+}
+function apiAssetUrl(path) {
+
+    if (!path) {
+        return "";
+    }
+
+    if (/^https?:\/\//i.test(path)) {
+        return path;
+    }
+
+    return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+
+}
 if (searchButton && searchBox) {
 
     searchButton.addEventListener("click", () => {
@@ -1102,7 +1118,7 @@ async function cargarComerciosAprobados() {
 
     try {
 
-        const response = await fetch("/api/businesses");
+        const response = await fetch(apiUrl("/api/businesses"));
 
         if (!response.ok) {
             return;
@@ -1505,7 +1521,7 @@ async function cargarFichaDeComercio() {
     try {
 
         const response = await fetch(
-            `/api/businesses/${encodeURIComponent(businessId)}`
+          apiUrl(`/api/businesses/${encodeURIComponent(businessId)}`)
         );
 
         if (!response.ok) {
@@ -1781,11 +1797,11 @@ if (publishForm) {
                 }
 
                 const response = await fetch(
-                    "/api/publications",
-                    {
-                        method: "POST",
-                        body: formData
-                    }
+                      apiUrl("/api/publications"),
+                      {   
+                      method: "POST",
+                       body: formData
+                      }
                 );
 
                 if (response.ok) {
@@ -2053,7 +2069,7 @@ async function loadReviewRequests() {
         try {
 
             const response = await fetch(
-                "/api/publications?status=pendiente"
+            apiUrl("/api/publications?status=pendiente")
             );
 
             if (!response.ok) {
@@ -2097,9 +2113,9 @@ async function updateReviewStatus(id, status) {
     if (reviewMode === "backend") {
 
         const response = await fetch(
-            `/api/publications/${encodeURIComponent(id)}`,
-            {
-                method: "PATCH",
+            apiUrl(`/api/publications/${encodeURIComponent(id)}`),
+           {  
+              method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -2230,7 +2246,7 @@ async function cargarPublicacionesAprobadas(types) {
     try {
 
         const response = await fetch(
-            `/api/publications/public?types=${encodeURIComponent(types.join(","))}`
+           apiUrl(`/api/publications/public?types=${encodeURIComponent(types.join(","))}`)
         );
 
         if (!response.ok) {
@@ -2264,8 +2280,8 @@ async function cargarNoticiasPublicadas() {
 
         const meta = datosPublicacion(publication);
         const image = publication.image_path
-            ? `<img src="${escaparHTML(publication.image_path)}" alt="">`
-            : `<span>${meta.icon}</span>`;
+           ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
+           : `<span>${meta.icon}</span>`;
 
         newsResults.insertAdjacentHTML("afterbegin", `
             <article class="news-list-card"
@@ -2349,8 +2365,8 @@ async function cargarComunidadPublicada() {
 
         const meta = datosPublicacion(publication);
         const image = publication.image_path
-            ? `<img src="${escaparHTML(publication.image_path)}" alt="">`
-            : `<span>${meta.icon}</span>`;
+          ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
+          : `<span>${meta.icon}</span>`;
 
         grid.insertAdjacentHTML("afterbegin", `
             <article class="news-card">
@@ -2380,7 +2396,7 @@ async function cargarDetallePublicado() {
     try {
 
         const response = await fetch(
-            `/api/publications/public/${encodeURIComponent(publicationId)}`
+            apiUrl(`/api/publications/public/${encodeURIComponent(publicationId)}`)
         );
 
         if (!response.ok) {
@@ -2391,8 +2407,8 @@ async function cargarDetallePublicado() {
         const meta = datosPublicacion(publication);
         const description = escaparHTML(publication.description).replaceAll("\n", "<br>");
         const image = publication.image_path
-            ? `<img src="${escaparHTML(publication.image_path)}" alt="">`
-            : `<span>${meta.icon}</span>`;
+          ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
+          : "";
 
         articleCategory.textContent = meta.label;
         articleTitle.textContent = publication.title;
