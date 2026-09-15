@@ -9,6 +9,7 @@ from uuid import UUID
 
 import psycopg
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
@@ -75,15 +76,24 @@ async def lifespan(_: FastAPI):
     initialize_database()
     yield
 
-
 app = FastAPI(title="Conecta Echegaray API", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://dunktendo.github.io",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.add_middleware(
     SessionMiddleware,
     secret_key=SESSION_SECRET or "configure-a-session-secret-before-starting",
     https_only=COOKIE_SECURE,
     same_site="lax",
 )
-
 
 def require_admin(request: Request) -> str:
     email = request.session.get("admin_email")
