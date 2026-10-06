@@ -692,6 +692,8 @@ const businesses = [
 
 const newsResults =
     document.getElementById("newsResults");
+const homeNewsGrid =
+    document.getElementById("homeNewsGrid");
 
 const newsSearch =
     document.getElementById("newsSearch");
@@ -2268,15 +2270,47 @@ async function cargarPublicacionesAprobadas(types) {
 
 async function cargarNoticiasPublicadas() {
 
-    if (!newsResults) {
+    if (!newsResults && !homeNewsGrid) {
         return;
     }
+
+    // La portada y la lista pública se alimentan del contenido aprobado por la API.
+    if (newsResults) newsResults.replaceChildren();
 
     const publications = await cargarPublicacionesAprobadas([
         "noticia", "aviso"
     ]);
 
-    publications.forEach(publication => {
+    if (homeNewsGrid) {
+        const newest = [...publications]
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+            .slice(0, 3);
+        newest.forEach(publication => {
+            const meta = datosPublicacion(publication);
+            const image = publication.image_path
+                ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
+                : `<span>${meta.icon}</span>`;
+            homeNewsGrid.insertAdjacentHTML("beforeend", `
+                <article class="news-card">
+                    <div class="news-image placeholder">${image}</div>
+                    <div class="news-content">
+                        <span class="tag">${escaparHTML(meta.label)}</span>
+                        <h3>${escaparHTML(publication.title)}</h3>
+                        <p>${escaparHTML(publication.description)}</p>
+                        <div class="news-meta">
+                            <span>📍 ${escaparHTML(publication.location || "Echegaray")}</span>
+                            <span>${escaparHTML(fechaPublicacion(publication))}</span>
+                        </div>
+                        <a class="text-link" href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer publicación →</a>
+                    </div>
+                </article>
+            `);
+        });
+        const emptyState = document.getElementById("homeNewsEmpty");
+        if (emptyState) emptyState.hidden = newest.length > 0;
+    }
+
+    if (newsResults) publications.forEach(publication => {
 
         const meta = datosPublicacion(publication);
         const image = publication.image_path
@@ -2304,7 +2338,7 @@ async function cargarNoticiasPublicadas() {
         `);
     });
 
-    filtrarNoticias();
+    if (newsResults) filtrarNoticias();
 
 }
 
@@ -2315,7 +2349,21 @@ async function cargarEventosPublicados() {
         return;
     }
 
-    const publications = await cargarPublicacionesAprobadas(["evento"]);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const now = new Date();
+    const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    const publications = (await cargarPublicacionesAprobadas(["evento"]))
+        .filter(publication => {
+            if (!publication.event_date) return false;
+            const eventDay = new Date(`${publication.event_date}T00:00:00`);
+            if (Number.isNaN(eventDay.getTime()) || eventDay < today) return false;
+            if (eventDay.getTime() === today.getTime() && publication.event_time) {
+                return String(publication.event_time).slice(0, 5) >= currentTime;
+            }
+            return true;
+        })
+        .sort((a, b) => a.event_date.localeCompare(b.event_date));
 
     publications.forEach(publication => {
 
@@ -2327,9 +2375,11 @@ async function cargarEventosPublicados() {
             ? new Intl.DateTimeFormat("es-MX", { month: "short" })
                 .format(date).replace(".", "").toUpperCase()
             : "PRÓX.";
-        const time = publication.event_time ? ` · ⏰ ${publication.event_time}` : "";
+        const time = publication.event_time
+            ? ` · ⏰ ${String(publication.event_time).slice(0, 5)}`
+            : "";
 
-        eventsList.insertAdjacentHTML("afterbegin", `
+        eventsList.insertAdjacentHTML("beforeend", `
             <article class="event-card" data-category="comunidad">
                 <div class="event-date"><span>${day}</span><strong>${month}</strong></div>
                 <div class="event-info">
@@ -2343,6 +2393,9 @@ async function cargarEventosPublicados() {
             </article>
         `);
     });
+
+    const emptyState = document.getElementById("eventsEmpty");
+    if (emptyState) emptyState.hidden = publications.length > 0;
 
     filtrarEventos(searchInput ? searchInput.value : "");
 
