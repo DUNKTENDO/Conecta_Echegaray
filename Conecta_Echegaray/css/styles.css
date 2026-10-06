@@ -2447,6 +2447,47 @@ body {
     box-shadow: 0 12px 28px rgba(28, 54, 50, .09);
 }
 
+.event-status {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin: 0 0 8px 8px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #edf5ef;
+    color: #38674d;
+    font-size: .68rem;
+    font-weight: 700;
+}
+
+.event-status.is-demo {
+    background: #fff5df;
+    color: #76531a;
+}
+
+.publication-status {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin: 0 0 8px 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #fff5df;
+    color: #76531a;
+    font-size: .68rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.event-card.is-past {
+    background: #f7f8f7;
+    box-shadow: none;
+}
+
+.event-card.is-past .event-date {
+    filter: grayscale(.45);
+}
+
 .tag {
     border-radius: 999px;
     background: #eaf3f0;
