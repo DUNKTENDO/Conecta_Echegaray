@@ -608,7 +608,9 @@ const noticias = {
 const businesses = [
 
     {
+        demo: true,
         id: "cafe-del-parque",
+        publicationTypeLabel: "Comercio · Ejemplo",
         name: "Café del Parque",
         category: "alimentos",
         categoryLabel: "Alimentos",
@@ -623,7 +625,9 @@ const businesses = [
     },
 
     {
+        demo: true,
         id: "soluciones-del-hogar",
+        publicationTypeLabel: "Servicio · Ejemplo",
         name: "Soluciones del Hogar",
         category: "servicios",
         categoryLabel: "Servicios",
@@ -638,7 +642,9 @@ const businesses = [
     },
 
     {
+        demo: true,
         id: "espacio-bienestar",
+        publicationTypeLabel: "Servicio · Ejemplo",
         name: "Espacio Bienestar",
         category: "salud",
         categoryLabel: "Salud",
@@ -653,7 +659,9 @@ const businesses = [
     },
 
     {
+        demo: true,
         id: "casa-y-jardin",
+        publicationTypeLabel: "Comercio · Ejemplo",
         name: "Casa y Jardín",
         category: "hogar",
         categoryLabel: "Hogar",
@@ -668,7 +676,9 @@ const businesses = [
     },
 
     {
+        demo: true,
         id: "aula-comunitaria",
+        publicationTypeLabel: "Servicio · Ejemplo",
         name: "Aula Comunitaria",
         category: "educacion",
         categoryLabel: "Educación",
@@ -1028,6 +1038,7 @@ function renderBusinessCards() {
                 <span class="tag">
                     ${escaparHTML(business.categoryLabel)}
                 </span>
+                ${business.demo ? `<span class="publication-status is-demo">${escaparHTML(business.publicationTypeLabel || "Anuncio · Ejemplo")}</span>` : ''}
 
                 <h3>
                     ${escaparHTML(business.name)}
@@ -2211,6 +2222,12 @@ const publicTypeMeta = {
     "compra-venta": { label: "Compra, venta e intercambio", category: "comunidad", icon: "🔄" }
 };
 
+const demoNewsPublications = [
+    { demo: true, id: "demo-news-1", type: "noticia", title: "Conecta Echegaray: un espacio para compartir información", description: "Publicación de ejemplo para mostrar cómo se presentan noticias y novedades de interés comunitario.", location: "Echegaray", created_at: "2026-10-02T12:00:00" },
+    { demo: true, id: "demo-news-2", type: "aviso", title: "Aviso de ejemplo sobre el cuidado de espacios compartidos", description: "Mensaje de demostración con recomendaciones generales para mantener en buen estado las áreas comunes.", location: "Echegaray", created_at: "2026-10-03T12:00:00" },
+    { demo: true, id: "demo-news-3", type: "noticia", title: "Ideas vecinales que pueden convertirse en iniciativas", description: "Ejemplo de publicación para invitar a compartir propuestas y colaborar en proyectos comunitarios.", location: "Echegaray", created_at: "2026-10-05T12:00:00" }
+];
+
 function fechaPublicacion(publication, options = { dateStyle: "medium" }) {
 
     const rawDate = publication.event_date || publication.created_at;
@@ -2277,14 +2294,16 @@ async function cargarNoticiasPublicadas() {
     // La portada y la lista pública se alimentan del contenido aprobado por la API.
     if (newsResults) newsResults.replaceChildren();
 
-    const publications = await cargarPublicacionesAprobadas([
+    const approvedPublications = await cargarPublicacionesAprobadas([
         "noticia", "aviso"
     ]);
+    const publications = [
+        ...approvedPublications.map(publication => ({ ...publication, demo: false })),
+        ...demoNewsPublications
+    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     if (homeNewsGrid) {
-        const newest = [...publications]
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-            .slice(0, 3);
+        const newest = publications.slice(0, 3);
         newest.forEach(publication => {
             const meta = datosPublicacion(publication);
             const image = publication.image_path
@@ -2295,13 +2314,14 @@ async function cargarNoticiasPublicadas() {
                     <div class="news-image placeholder">${image}</div>
                     <div class="news-content">
                         <span class="tag">${escaparHTML(meta.label)}</span>
+                        ${publication.demo ? '<span class="publication-status is-demo">Ejemplo</span>' : ''}
                         <h3>${escaparHTML(publication.title)}</h3>
                         <p>${escaparHTML(publication.description)}</p>
                         <div class="news-meta">
                             <span>📍 ${escaparHTML(publication.location || "Echegaray")}</span>
                             <span>${escaparHTML(fechaPublicacion(publication))}</span>
                         </div>
-                        <a class="text-link" href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer publicación →</a>
+                        ${publication.demo ? '' : `<a class="text-link" href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer publicación →</a>`}
                     </div>
                 </article>
             `);
@@ -2317,7 +2337,7 @@ async function cargarNoticiasPublicadas() {
            ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
            : `<span>${meta.icon}</span>`;
 
-        newsResults.insertAdjacentHTML("afterbegin", `
+        newsResults.insertAdjacentHTML("beforeend", `
             <article class="news-list-card"
                 data-category="${escaparHTML(meta.category)}"
                 data-title="${escaparHTML(publication.title)}">
@@ -2325,13 +2345,14 @@ async function cargarNoticiasPublicadas() {
                 <div class="news-list-content">
                     <div class="news-list-top">
                         <span class="tag">${escaparHTML(meta.label)}</span>
+                        ${publication.demo ? '<span class="publication-status is-demo">Ejemplo</span>' : ''}
                         <span class="news-date">${escaparHTML(fechaPublicacion(publication))}</span>
                     </div>
                     <h2>${escaparHTML(publication.title)}</h2>
                     <p>${escaparHTML(publication.description)}</p>
                     <div class="news-list-footer">
                         <span>📍 ${escaparHTML(publication.location || "Echegaray")}</span>
-                        <a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer más →</a>
+                        ${publication.demo ? '<span class="text-link">Contenido de demostración</span>' : `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer más →</a>`}
                     </div>
                 </div>
             </article>
@@ -2365,37 +2386,64 @@ async function cargarEventosPublicados() {
         })
         .sort((a, b) => a.event_date.localeCompare(b.event_date));
 
-    publications.forEach(publication => {
+    const demoEvents = [
+        { event_date: "2026-10-03", event_time: "09:00", type: "comunidad", title: "Jornada de limpieza comunitaria", description: "Evento de ejemplo para mostrar cómo se vería una actividad de cuidado de espacios comunes.", location: "Echegaray" },
+        { event_date: "2026-10-10", event_time: "10:00", type: "cultura", title: "Intercambio de libros y lectura", description: "Evento de ejemplo: una mañana para compartir libros y recomendaciones de lectura.", location: "Echegaray" },
+        { event_date: "2026-10-17", event_time: "11:00", type: "talleres", title: "Taller vecinal de huertos", description: "Evento de ejemplo con ideas básicas para iniciar un huerto en casa.", location: "Echegaray" },
+        { event_date: "2026-10-24", event_time: "16:00", type: "cultura", title: "Tarde de juegos y convivencia", description: "Evento de ejemplo para ilustrar una actividad recreativa abierta a la comunidad.", location: "Echegaray" },
+        { event_date: "2026-10-31", event_time: "17:00", type: "comunidad", title: "Encuentro comunitario de octubre", description: "Evento de ejemplo para cerrar el mes con una actividad de convivencia.", location: "Echegaray" }
+    ];
+    const showPastDemoEvents = eventsList.dataset.showPastDemo === "true";
+    const visibleDemoEvents = demoEvents.filter(event => {
+        const eventDay = new Date(`${event.event_date}T00:00:00`);
+        return showPastDemoEvents || eventDay >= today;
+    });
 
-        const date = publication.event_date
-            ? new Date(`${publication.event_date}T12:00:00`)
-            : null;
-        const day = date ? String(date.getDate()).padStart(2, "0") : "--";
-        const month = date
-            ? new Intl.DateTimeFormat("es-MX", { month: "short" })
-                .format(date).replace(".", "").toUpperCase()
-            : "PRÓX.";
+    const calendarItems = [
+        ...publications.map(publication => ({ ...publication, demo: false, category: "comunidad" })),
+        ...visibleDemoEvents.map(event => ({ ...event, demo: true, category: event.type }))
+    ].sort((a, b) => a.event_date.localeCompare(b.event_date));
+
+    eventsList.querySelectorAll(".event-card").forEach(card => card.remove());
+    calendarItems.forEach(publication => {
+        const date = new Date(`${publication.event_date}T12:00:00`);
+        const eventDay = new Date(`${publication.event_date}T00:00:00`);
+        const isPast = eventDay < today || (
+            eventDay.getTime() === today.getTime() && publication.event_time &&
+            String(publication.event_time).slice(0, 5) < currentTime
+        );
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = new Intl.DateTimeFormat("es-MX", { month: "short" })
+            .format(date).replace(".", "").toUpperCase();
         const time = publication.event_time
             ? ` · ⏰ ${String(publication.event_time).slice(0, 5)}`
             : "";
+        const categoryLabel = { comunidad: "Comunidad", cultura: "Cultura", talleres: "Talleres" }[publication.category] || "Eventos";
+        const statusLabel = publication.demo
+            ? (isPast ? "Ejemplo · Ya ocurrió" : "Evento de ejemplo")
+            : "Evento aprobado";
+        const detailsLink = publication.id
+            ? `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver detalles →</a>`
+            : "";
 
         eventsList.insertAdjacentHTML("beforeend", `
-            <article class="event-card" data-category="comunidad">
+            <article class="event-card${isPast ? " is-past" : ""}" data-category="${escaparHTML(publication.category)}">
                 <div class="event-date"><span>${day}</span><strong>${month}</strong></div>
                 <div class="event-info">
-                    <span class="tag">Eventos</span>
+                    <span class="tag">${escaparHTML(categoryLabel)}</span>
+                    <span class="event-status${publication.demo ? " is-demo" : ""}">${statusLabel}</span>
                     <h3>${escaparHTML(publication.title)}</h3>
                     <p>${escaparHTML(publication.description)}</p>
                     <small>📍 ${escaparHTML(publication.location || "Echegaray")}${escaparHTML(time)}</small>
-                    <a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver detalles →</a>
+                    ${detailsLink}
                 </div>
-                <span class="event-arrow">→</span>
+                <span class="event-arrow" aria-hidden="true">→</span>
             </article>
         `);
     });
 
     const emptyState = document.getElementById("eventsEmpty");
-    if (emptyState) emptyState.hidden = publications.length > 0;
+    if (emptyState) emptyState.hidden = calendarItems.length > 0;
 
     filtrarEventos(searchInput ? searchInput.value : "");
 
@@ -2410,9 +2458,18 @@ async function cargarComunidadPublicada() {
         return;
     }
 
-    const publications = await cargarPublicacionesAprobadas([
+    grid.replaceChildren();
+    const approvedPublications = await cargarPublicacionesAprobadas([
         "iniciativa", "compra-venta"
     ]);
+    const demoPublications = [
+        { demo: true, type: "iniciativa", title: "Propuesta de intercambio de plantas", description: "Iniciativa de ejemplo para compartir esquejes, semillas y consejos de jardinería entre vecinos.", location: "Echegaray", created_at: "2026-10-04T12:00:00" },
+        { demo: true, type: "compra-venta", title: "Intercambio vecinal de libros y juegos", description: "Aviso de demostración para ofrecer artículos en buen estado e intercambiarlos con otras personas.", location: "Echegaray", created_at: "2026-10-05T12:00:00" }
+    ];
+    const publications = [
+        ...approvedPublications.map(publication => ({ ...publication, demo: false })),
+        ...demoPublications
+    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     publications.forEach(publication => {
 
@@ -2421,14 +2478,19 @@ async function cargarComunidadPublicada() {
           ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
           : `<span>${meta.icon}</span>`;
 
-        grid.insertAdjacentHTML("afterbegin", `
+        grid.insertAdjacentHTML("beforeend", `
             <article class="news-card">
                 <div class="news-image placeholder">${image}</div>
                 <div class="news-content">
                     <span class="tag">${escaparHTML(meta.label)}</span>
+                    ${publication.demo ? '<span class="publication-status is-demo">Ejemplo</span>' : ''}
                     <h3>${escaparHTML(publication.title)}</h3>
                     <p>${escaparHTML(publication.description)}</p>
-                    <a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver publicación →</a>
+                    <div class="news-meta">
+                        <span>📍 ${escaparHTML(publication.location || "Echegaray")}</span>
+                        <span>${escaparHTML(fechaPublicacion(publication))}</span>
+                    </div>
+                    ${publication.demo ? '<span class="text-link">Contenido de demostración</span>' : `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver publicación →</a>`}
                 </div>
             </article>
         `);
