@@ -8,6 +8,53 @@
    1. MENÚ MÓVIL
 ================================================== */
 
+function inicializarModoOscuro() {
+
+    let darkMode = true;
+    try {
+        const savedTheme = window.localStorage.getItem("conecta-theme");
+        darkMode = savedTheme ? savedTheme === "dark" : true;
+    } catch (error) {
+        // El modo claro sigue disponible si el navegador bloquea el almacenamiento.
+    }
+
+    document.body.classList.toggle("dark-mode", darkMode);
+
+    const actions = document.querySelector(".nav-actions");
+    if (!actions) return;
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "theme-toggle";
+    toggle.setAttribute("aria-pressed", String(darkMode));
+    toggle.innerHTML = '<span class="theme-toggle-icon" aria-hidden="true"></span>';
+
+    const updateToggle = () => {
+        toggle.querySelector(".theme-toggle-icon").textContent = darkMode ? "☀️" : "🌙";
+        toggle.setAttribute("aria-label", darkMode ? "Activar modo claro" : "Activar modo oscuro");
+        toggle.title = darkMode ? "Activar modo claro" : "Activar modo oscuro";
+        toggle.setAttribute("aria-pressed", String(darkMode));
+    };
+
+    updateToggle();
+    toggle.addEventListener("click", () => {
+        darkMode = !darkMode;
+        document.body.classList.toggle("dark-mode", darkMode);
+        try {
+            window.localStorage.setItem("conecta-theme", darkMode ? "dark" : "light");
+        } catch (error) {
+            // La selección se mantiene durante esta visita aunque no pueda guardarse.
+        }
+        updateToggle();
+    });
+
+    const menu = actions.querySelector(".menu-button");
+    actions.insertBefore(toggle, menu || null);
+
+}
+
+inicializarModoOscuro();
+
 const menuButton = document.getElementById("menuButton");
 const mobileMenu = document.getElementById("mobileMenu");
 
@@ -610,13 +657,12 @@ const businesses = [
     {
         demo: true,
         id: "cafe-del-parque",
-        publicationTypeLabel: "Comercio · Ejemplo",
         name: "Café del Parque",
         category: "alimentos",
         categoryLabel: "Alimentos",
         icon: "☕",
         description:
-            "Cafetería de ejemplo con bebidas, pan recién hecho y opciones para llevar.",
+            "Cafetería de barrio con bebidas, pan y opciones para llevar.",
         location: "Echegaray",
         address: "Zona del parque de Echegaray",
         schedule: "Lunes a sábado · 08:00 a 20:00",
@@ -627,13 +673,12 @@ const businesses = [
     {
         demo: true,
         id: "soluciones-del-hogar",
-        publicationTypeLabel: "Servicio · Ejemplo",
         name: "Soluciones del Hogar",
         category: "servicios",
         categoryLabel: "Servicios",
         icon: "🔧",
         description:
-            "Servicio de ejemplo para reparaciones menores y apoyo en el mantenimiento del hogar.",
+            "Apoyo para reparaciones menores y mantenimiento general del hogar.",
         location: "Echegaray",
         address: "Servicio a domicilio en Echegaray",
         schedule: "Lunes a viernes · 09:00 a 18:00",
@@ -644,13 +689,12 @@ const businesses = [
     {
         demo: true,
         id: "espacio-bienestar",
-        publicationTypeLabel: "Servicio · Ejemplo",
         name: "Espacio Bienestar",
         category: "salud",
         categoryLabel: "Salud",
         icon: "🌿",
         description:
-            "Espacio de ejemplo dedicado a actividades de bienestar y cuidado personal.",
+            "Actividades de bienestar y opciones de cuidado personal.",
         location: "Echegaray",
         address: "Echegaray",
         schedule: "Previa cita",
@@ -661,13 +705,12 @@ const businesses = [
     {
         demo: true,
         id: "casa-y-jardin",
-        publicationTypeLabel: "Comercio · Ejemplo",
         name: "Casa y Jardín",
         category: "hogar",
         categoryLabel: "Hogar",
         icon: "🪴",
         description:
-            "Proyecto de ejemplo con artículos y asesoría para el cuidado de casa y jardín.",
+            "Artículos y asesoría para el cuidado de la casa y el jardín.",
         location: "Echegaray",
         address: "Echegaray",
         schedule: "Lunes a sábado · 10:00 a 18:00",
@@ -678,18 +721,47 @@ const businesses = [
     {
         demo: true,
         id: "aula-comunitaria",
-        publicationTypeLabel: "Servicio · Ejemplo",
         name: "Aula Comunitaria",
         category: "educacion",
         categoryLabel: "Educación",
         icon: "📚",
         description:
-            "Espacio de ejemplo para clases, asesorías y actividades de aprendizaje.",
+            "Clases, asesorías y actividades para aprender en comunidad.",
         location: "Echegaray",
         address: "Echegaray",
         schedule: "Consulta horarios disponibles",
         contact: "Información de contacto en validación",
         services: ["Clases", "Asesorías", "Talleres"]
+    },
+
+    {
+        demo: true,
+        id: "papeleria-del-barrio",
+        name: "Papelería del Barrio",
+        category: "educacion",
+        categoryLabel: "Educación",
+        icon: "✏️",
+        description: "Artículos escolares, copias y materiales para proyectos y tareas.",
+        location: "Echegaray",
+        address: "Echegaray",
+        schedule: "Lunes a sábado · 09:00 a 19:00",
+        contact: "Contacto por confirmar",
+        services: ["Papelería", "Copias", "Material escolar"]
+    },
+
+    {
+        demo: true,
+        id: "apoyo-digital",
+        name: "Apoyo Digital",
+        category: "servicios",
+        categoryLabel: "Servicios",
+        icon: "💻",
+        description: "Orientación para trámites en línea, impresión y configuración básica de dispositivos.",
+        location: "Echegaray",
+        address: "Atención en Echegaray",
+        schedule: "Previa consulta",
+        contact: "Contacto por confirmar",
+        services: ["Orientación digital", "Impresión", "Asistencia básica"]
     }
 
 ];
@@ -1017,6 +1089,24 @@ function normalizarPublicacion(publication) {
 }
 
 
+function mostrarAvisoDemostracion(container) {
+
+    if (!container || !container.querySelector('[data-demo="true"]')) {
+        return;
+    }
+
+    const existingNotice = container.parentElement.querySelector(":scope > .demo-disclosure");
+    if (existingNotice) return;
+
+    const notice = document.createElement("p");
+    notice.className = "demo-disclosure";
+    notice.setAttribute("role", "note");
+    notice.textContent = "Esta sección incluye contenido simulado para mostrar cómo funciona Conecta Echegaray.";
+    container.parentElement.insertBefore(notice, container);
+
+}
+
+
 function renderBusinessCards() {
 
     if (!businessGrid) {
@@ -1029,6 +1119,7 @@ function renderBusinessCards() {
             class="business-card"
             href="comercio-detalle.html?id=${encodeURIComponent(business.id)}"
             data-category="${escaparHTML(business.category)}"
+            data-demo="${business.demo ? "true" : "false"}"
         >
             <div class="business-icon" aria-hidden="true">
                 ${escaparHTML(business.icon)}
@@ -1038,7 +1129,6 @@ function renderBusinessCards() {
                 <span class="tag">
                     ${escaparHTML(business.categoryLabel)}
                 </span>
-                ${business.demo ? `<span class="publication-status is-demo">${escaparHTML(business.publicationTypeLabel || "Anuncio · Ejemplo")}</span>` : ''}
 
                 <h3>
                     ${escaparHTML(business.name)}
@@ -1055,6 +1145,8 @@ function renderBusinessCards() {
         </a>
 
     `).join("");
+
+    mostrarAvisoDemostracion(businessGrid);
 
 }
 
@@ -2223,9 +2315,12 @@ const publicTypeMeta = {
 };
 
 const demoNewsPublications = [
-    { demo: true, id: "demo-news-1", type: "noticia", title: "Conecta Echegaray: un espacio para compartir información", description: "Publicación de ejemplo para mostrar cómo se presentan noticias y novedades de interés comunitario.", location: "Echegaray", created_at: "2026-10-02T12:00:00" },
-    { demo: true, id: "demo-news-2", type: "aviso", title: "Aviso de ejemplo sobre el cuidado de espacios compartidos", description: "Mensaje de demostración con recomendaciones generales para mantener en buen estado las áreas comunes.", location: "Echegaray", created_at: "2026-10-03T12:00:00" },
-    { demo: true, id: "demo-news-3", type: "noticia", title: "Ideas vecinales que pueden convertirse en iniciativas", description: "Ejemplo de publicación para invitar a compartir propuestas y colaborar en proyectos comunitarios.", location: "Echegaray", created_at: "2026-10-05T12:00:00" }
+    { demo: true, id: "demo-news-1", type: "noticia", title: "Conecta Echegaray reúne información de interés local", description: "El portal ofrece un espacio para compartir noticias, avisos y propuestas de la comunidad.", location: "Echegaray", created_at: "2026-10-02T12:00:00" },
+    { demo: true, id: "demo-news-2", type: "aviso", title: "Cuidemos los espacios compartidos", description: "Recordemos mantener en buen estado las áreas comunes y respetar los espacios que usamos entre todos.", location: "Echegaray", created_at: "2026-10-03T12:00:00" },
+    { demo: true, id: "demo-news-3", type: "noticia", title: "Ideas vecinales para colaborar en comunidad", description: "Comparte propuestas y encuentra personas interesadas en colaborar en proyectos comunitarios.", location: "Echegaray", created_at: "2026-10-05T12:00:00" },
+    { demo: true, id: "demo-news-4", type: "aviso", title: "Comparte herramientas que ya no utilizas", description: "El espacio de comunidad permite ofrecer objetos útiles e intercambiarlos con otras personas.", location: "Echegaray", created_at: "2026-10-06T12:00:00" },
+    { demo: true, id: "demo-news-5", type: "noticia", title: "Publica una actividad o propuesta", description: "Envía información desde el formulario del portal para que pueda revisarse antes de publicarse.", location: "Echegaray", created_at: "2026-10-07T12:00:00" },
+    { demo: true, id: "demo-news-6", type: "aviso", title: "Consejos para intercambios vecinales", description: "Acuerda con claridad el estado del artículo, el horario y un punto de encuentro conveniente.", location: "Echegaray", created_at: "2026-10-08T12:00:00" }
 ];
 
 function fechaPublicacion(publication, options = { dateStyle: "medium" }) {
@@ -2310,11 +2405,10 @@ async function cargarNoticiasPublicadas() {
                 ? `<img src="${escaparHTML(apiAssetUrl(publication.image_path))}" alt="">`
                 : `<span>${meta.icon}</span>`;
             homeNewsGrid.insertAdjacentHTML("beforeend", `
-                <article class="news-card">
+                <article class="news-card" data-demo="${publication.demo ? "true" : "false"}">
                     <div class="news-image placeholder">${image}</div>
                     <div class="news-content">
                         <span class="tag">${escaparHTML(meta.label)}</span>
-                        ${publication.demo ? '<span class="publication-status is-demo">Ejemplo</span>' : ''}
                         <h3>${escaparHTML(publication.title)}</h3>
                         <p>${escaparHTML(publication.description)}</p>
                         <div class="news-meta">
@@ -2326,6 +2420,7 @@ async function cargarNoticiasPublicadas() {
                 </article>
             `);
         });
+        mostrarAvisoDemostracion(homeNewsGrid);
         const emptyState = document.getElementById("homeNewsEmpty");
         if (emptyState) emptyState.hidden = newest.length > 0;
     }
@@ -2340,26 +2435,29 @@ async function cargarNoticiasPublicadas() {
         newsResults.insertAdjacentHTML("beforeend", `
             <article class="news-list-card"
                 data-category="${escaparHTML(meta.category)}"
-                data-title="${escaparHTML(publication.title)}">
+                data-title="${escaparHTML(publication.title)}"
+                data-demo="${publication.demo ? "true" : "false"}">
                 <div class="news-list-image placeholder">${image}</div>
                 <div class="news-list-content">
                     <div class="news-list-top">
                         <span class="tag">${escaparHTML(meta.label)}</span>
-                        ${publication.demo ? '<span class="publication-status is-demo">Ejemplo</span>' : ''}
                         <span class="news-date">${escaparHTML(fechaPublicacion(publication))}</span>
                     </div>
                     <h2>${escaparHTML(publication.title)}</h2>
                     <p>${escaparHTML(publication.description)}</p>
                     <div class="news-list-footer">
                         <span>📍 ${escaparHTML(publication.location || "Echegaray")}</span>
-                        ${publication.demo ? '<span class="text-link">Contenido de demostración</span>' : `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer más →</a>`}
+                        ${publication.demo ? '' : `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Leer más →</a>`}
                     </div>
                 </div>
             </article>
         `);
     });
 
-    if (newsResults) filtrarNoticias();
+    if (newsResults) {
+        mostrarAvisoDemostracion(newsResults);
+        filtrarNoticias();
+    }
 
 }
 
@@ -2387,11 +2485,11 @@ async function cargarEventosPublicados() {
         .sort((a, b) => a.event_date.localeCompare(b.event_date));
 
     const demoEvents = [
-        { event_date: "2026-10-03", event_time: "09:00", type: "comunidad", title: "Jornada de limpieza comunitaria", description: "Evento de ejemplo para mostrar cómo se vería una actividad de cuidado de espacios comunes.", location: "Echegaray" },
-        { event_date: "2026-10-10", event_time: "10:00", type: "cultura", title: "Intercambio de libros y lectura", description: "Evento de ejemplo: una mañana para compartir libros y recomendaciones de lectura.", location: "Echegaray" },
-        { event_date: "2026-10-17", event_time: "11:00", type: "talleres", title: "Taller vecinal de huertos", description: "Evento de ejemplo con ideas básicas para iniciar un huerto en casa.", location: "Echegaray" },
-        { event_date: "2026-10-24", event_time: "16:00", type: "cultura", title: "Tarde de juegos y convivencia", description: "Evento de ejemplo para ilustrar una actividad recreativa abierta a la comunidad.", location: "Echegaray" },
-        { event_date: "2026-10-31", event_time: "17:00", type: "comunidad", title: "Encuentro comunitario de octubre", description: "Evento de ejemplo para cerrar el mes con una actividad de convivencia.", location: "Echegaray" }
+        { event_date: "2026-10-03", event_time: "09:00", type: "comunidad", title: "Jornada de limpieza comunitaria", description: "Jornada para colaborar en el cuidado de los espacios compartidos.", location: "Echegaray" },
+        { event_date: "2026-10-10", event_time: "10:00", type: "cultura", title: "Intercambio de libros y lectura", description: "Una mañana para compartir libros y recomendaciones de lectura.", location: "Echegaray" },
+        { event_date: "2026-10-17", event_time: "11:00", type: "talleres", title: "Taller vecinal de huertos", description: "Ideas prácticas para iniciar un huerto en casa y cuidar las plantas.", location: "Echegaray" },
+        { event_date: "2026-10-24", event_time: "16:00", type: "cultura", title: "Tarde de juegos y convivencia", description: "Actividad recreativa para compartir juegos y pasar la tarde en comunidad.", location: "Echegaray" },
+        { event_date: "2026-10-31", event_time: "17:00", type: "comunidad", title: "Encuentro comunitario de octubre", description: "Un espacio de convivencia para cerrar el mes y compartir ideas.", location: "Echegaray" }
     ];
     const showPastDemoEvents = eventsList.dataset.showPastDemo === "true";
     const visibleDemoEvents = demoEvents.filter(event => {
@@ -2419,19 +2517,15 @@ async function cargarEventosPublicados() {
             ? ` · ⏰ ${String(publication.event_time).slice(0, 5)}`
             : "";
         const categoryLabel = { comunidad: "Comunidad", cultura: "Cultura", talleres: "Talleres" }[publication.category] || "Eventos";
-        const statusLabel = publication.demo
-            ? (isPast ? "Ejemplo · Ya ocurrió" : "Evento de ejemplo")
-            : "Evento aprobado";
         const detailsLink = publication.id
             ? `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver detalles →</a>`
             : "";
 
         eventsList.insertAdjacentHTML("beforeend", `
-            <article class="event-card${isPast ? " is-past" : ""}" data-category="${escaparHTML(publication.category)}">
+            <article class="event-card${isPast ? " is-past" : ""}" data-category="${escaparHTML(publication.category)}" data-demo="${publication.demo ? "true" : "false"}">
                 <div class="event-date"><span>${day}</span><strong>${month}</strong></div>
                 <div class="event-info">
                     <span class="tag">${escaparHTML(categoryLabel)}</span>
-                    <span class="event-status${publication.demo ? " is-demo" : ""}">${statusLabel}</span>
                     <h3>${escaparHTML(publication.title)}</h3>
                     <p>${escaparHTML(publication.description)}</p>
                     <small>📍 ${escaparHTML(publication.location || "Echegaray")}${escaparHTML(time)}</small>
@@ -2442,6 +2536,7 @@ async function cargarEventosPublicados() {
         `);
     });
 
+    mostrarAvisoDemostracion(eventsList);
     const emptyState = document.getElementById("eventsEmpty");
     if (emptyState) emptyState.hidden = calendarItems.length > 0;
 
@@ -2463,8 +2558,11 @@ async function cargarComunidadPublicada() {
         "iniciativa", "compra-venta"
     ]);
     const demoPublications = [
-        { demo: true, type: "iniciativa", title: "Propuesta de intercambio de plantas", description: "Iniciativa de ejemplo para compartir esquejes, semillas y consejos de jardinería entre vecinos.", location: "Echegaray", created_at: "2026-10-04T12:00:00" },
-        { demo: true, type: "compra-venta", title: "Intercambio vecinal de libros y juegos", description: "Aviso de demostración para ofrecer artículos en buen estado e intercambiarlos con otras personas.", location: "Echegaray", created_at: "2026-10-05T12:00:00" }
+        { demo: true, type: "iniciativa", title: "Intercambio de plantas y consejos de jardinería", description: "Propuesta para compartir esquejes, semillas y consejos de cuidado de plantas entre vecinos.", location: "Echegaray", created_at: "2026-10-04T12:00:00" },
+        { demo: true, type: "compra-venta", title: "Intercambio vecinal de libros y juegos", description: "Un espacio para ofrecer artículos en buen estado e intercambiarlos con otras personas.", location: "Echegaray", created_at: "2026-10-05T12:00:00" },
+        { demo: true, type: "iniciativa", title: "Red de apoyo para compartir habilidades", description: "Propuesta para conectar a personas que puedan compartir conocimientos, tiempo o apoyo práctico.", location: "Echegaray", created_at: "2026-10-06T12:00:00" },
+        { demo: true, type: "compra-venta", title: "Artículos para el hogar en buen estado", description: "Publica objetos que puedan ser útiles para alguien más e indica sus condiciones con claridad.", location: "Echegaray", created_at: "2026-10-07T12:00:00" },
+        { demo: true, type: "iniciativa", title: "Directorio colaborativo de servicios", description: "Propuesta para reunir recomendaciones y datos de contacto que las personas autoricen compartir.", location: "Echegaray", created_at: "2026-10-08T12:00:00" }
     ];
     const publications = [
         ...approvedPublications.map(publication => ({ ...publication, demo: false })),
@@ -2479,22 +2577,23 @@ async function cargarComunidadPublicada() {
           : `<span>${meta.icon}</span>`;
 
         grid.insertAdjacentHTML("beforeend", `
-            <article class="news-card">
+            <article class="news-card" data-demo="${publication.demo ? "true" : "false"}">
                 <div class="news-image placeholder">${image}</div>
                 <div class="news-content">
                     <span class="tag">${escaparHTML(meta.label)}</span>
-                    ${publication.demo ? '<span class="publication-status is-demo">Ejemplo</span>' : ''}
                     <h3>${escaparHTML(publication.title)}</h3>
                     <p>${escaparHTML(publication.description)}</p>
                     <div class="news-meta">
                         <span>📍 ${escaparHTML(publication.location || "Echegaray")}</span>
                         <span>${escaparHTML(fechaPublicacion(publication))}</span>
                     </div>
-                    ${publication.demo ? '<span class="text-link">Contenido de demostración</span>' : `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver publicación →</a>`}
+                    ${publication.demo ? '' : `<a href="detalle.html?publication=${encodeURIComponent(publication.id)}">Ver publicación →</a>`}
                 </div>
             </article>
         `);
     });
+
+    mostrarAvisoDemostracion(grid);
 
 }
 
